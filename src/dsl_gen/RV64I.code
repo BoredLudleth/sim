@@ -1,0 +1,631 @@
+Instruction(:add) {
+    encoding *format_r_alu(:add)
+    code { rd[] = rs1 + rs2 }
+}
+
+Instruction(:sub) {
+    encoding *format_r_alu(:sub)
+    code { rd[] = rs1 - rs2 }
+}
+
+Instruction(:sll) {
+    encoding *format_r_alu(:sll)
+    code { rd[] = rs1 << rs2 }
+}
+
+Instruction(:slt) {
+    encoding *format_r_alu(:slt)
+    code { rd[] = (rs1 < rs2) ? 1 : 0 }
+}
+
+Instruction(:sltu) {
+    encoding *format_r_alu(:sltu)
+    code { rd[] = (rs1 < rs2) ? 1 : 0 }
+}
+
+Instruction(:xor) {
+    encoding *format_r_alu(:xor)
+    code { rd[] = rs1 ^ rs2 }
+}
+
+Instruction(:srl) {
+    encoding *format_r_alu(:srl)
+    code { rd[] = rs1 >> rs2 }
+}
+
+Instruction(:sra) {
+    encoding *format_r_alu(:sra)
+    code { rd[] = rs1 >> rs2 }
+}
+
+Instruction(:or) {
+    encoding *format_r_alu(:or)
+    code { rd[] = rs1 | rs2 }
+}
+
+Instruction(:and) {
+    encoding *format_r_alu(:and)
+    code { rd[] = rs1 & rs2 }
+}
+
+Instruction(:addi) {
+    encoding *format_i(0x13, 0x0)
+    code { rd[] = rs1 + imm_11_0 }
+}
+
+Instruction(:slti) {
+    encoding *format_i(0x13, 0x2)
+    code { rd[] = (rs1 < imm_11_0) ? 1 : 0 }
+}
+
+Instruction(:sltiu) {
+    encoding *format_i(0x13, 0x3)
+    code { rd[] = (rs1 < imm_11_0) ? 1 : 0 }
+}
+
+Instruction(:xori) {
+    encoding *format_i(0x13, 0x4)
+    code { rd[] = rs1 ^ imm_11_0 }
+}
+
+Instruction(:ori) {
+    encoding *format_i(0x13, 0x6)
+    code { rd[] = rs1 | imm_11_0 }
+}
+
+Instruction(:andi) {
+    encoding *format_i(0x13, 0x7)
+    code { rd[] = rs1 & imm_11_0 }
+}
+
+Instruction(:slli) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x13),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x1),
+        field(:rs1, 19, 15, :reg),
+        field(:shamt, 24, 20, :imm),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code { rd[] = rs1 << shamt }
+}
+
+Instruction(:srli) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x13),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x5),
+        field(:rs1, 19, 15, :reg),
+        field(:shamt, 24, 20, :imm),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code { rd[] = rs1 >> shamt }
+}
+
+Instruction(:srai) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x13),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x5),
+        field(:rs1, 19, 15, :reg),
+        field(:shamt, 24, 20, :imm),
+        field(:funct7, 31, 25, 0x20)
+    ]
+    code { rd[] = rs1 >> shamt }
+}
+
+Instruction(:lb) {
+    encoding *format_i(0x03, 0x0)
+    code { rd[] = memory[rs1 + imm_11_0][7] }
+}
+
+Instruction(:lh) {
+    encoding *format_i(0x03, 0x1)
+    code { rd[] = memory[rs1 + imm_11_0][15] }
+}
+
+Instruction(:lw) {
+    encoding *format_i(0x03, 0x2)
+    code { rd[] = memory[rs1 + imm_11_0][31] }
+}
+
+Instruction(:lbu) {
+    encoding *format_i(0x03, 0x4)
+    code { rd[] = memory[rs1 + imm_11_0][7] }
+}
+
+Instruction(:lhu) {
+    encoding *format_i(0x03, 0x5)
+    code { rd[] = memory[rs1 + imm_11_0][15] }
+}
+
+Instruction(:sb) {
+    encoding *format_s(0x23, 0x0)
+    code { memory[rs1 + imm_11_5 + imm_4_0] = rs2[7] }
+}
+
+Instruction(:sh) {
+    encoding *format_s(0x23, 0x1)
+    code { memory[rs1 + imm_11_5 + imm_4_0] = rs2[15] }
+}
+
+Instruction(:sw) {
+    encoding *format_s(0x23, 0x2)
+    code { memory[rs1 + imm_11_5 + imm_4_0] = rs2[31] }
+}
+
+Instruction(:beq) {
+    encoding *format_b(0x63, 0x0)
+    code { 
+        if rs1 == rs2
+            pc = pc + imm_12 + imm_11 + imm_10_5 + imm_4_1 
+        end
+    }
+}
+
+Instruction(:bne) {
+    encoding *format_b(0x63, 0x1)
+    code { 
+        if rs1 != rs2
+            pc = pc + imm_12 + imm_11 + imm_10_5 + imm_4_1 
+        end
+    }
+}
+
+Instruction(:blt) {
+    encoding *format_b(0x63, 0x4)
+    code { 
+        if rs1 < rs2
+            pc = pc + imm_12 + imm_11 + imm_10_5 + imm_4_1 
+        end
+    }
+}
+
+Instruction(:bge) {
+    encoding *format_b(0x63, 0x5)
+    code { 
+        if rs1 >= rs2
+            pc = pc + imm_12 + imm_11 + imm_10_5 + imm_4_1 
+        end
+    }
+}
+
+Instruction(:bltu) {
+    encoding *format_b(0x63, 0x6)
+    code { 
+        if rs1 < rs2
+            pc = pc + imm_12 + imm_11 + imm_10_5 + imm_4_1 
+        end
+    }
+}
+
+Instruction(:bgeu) {
+    encoding *format_b(0x63, 0x7)
+    code { 
+        if rs1 >= rs2
+            pc = pc + imm_12 + imm_11 + imm_10_5 + imm_4_1 
+        end
+    }
+}
+
+Instruction(:jal) {
+    encoding *format_j(0x6F)
+    code { 
+        rd[] = pc + 4
+        pc = pc + imm_20 + imm_19_12 + imm_11 + imm_10_1
+    }
+}
+
+Instruction(:jalr) {
+    encoding *format_i(0x67, 0x0)
+    code {
+        rd[] = pc + 4
+        pc = (rs1 + imm_11_0) & ~1
+    }
+}
+
+Instruction(:lui) {
+    encoding *format_u(0x37)
+    code { rd[] = imm_31_12 << 12 }
+}
+
+Instruction(:auipc) {
+    encoding *format_u(0x17)
+    code { rd[] = pc + (imm_31_12 << 12) }
+}
+
+Instruction(:fence) {
+    encoding *format_i(0x0F, 0x0)
+    code {
+    }
+}
+
+Instruction(:fence_i) {
+    encoding *format_i(0x0F, 0x1)
+    code {
+    }
+}
+
+Instruction(:csrrw) {
+    encoding *format_i(0x73, 0x1)
+    code {
+        tmp = csr[imm_11_0]
+        csr[imm_11_0] = rs1
+        rd[] = tmp
+    }
+}
+
+Instruction(:csrrs) {
+    encoding *format_i(0x73, 0x2)
+    code {
+        tmp = csr[imm_11_0]
+        csr[imm_11_0] = tmp | rs1
+        rd[] = tmp
+    }
+}
+
+Instruction(:csrrc) {
+    encoding *format_i(0x73, 0x3)
+    code {
+        tmp = csr[imm_11_0]
+        csr[imm_11_0] = tmp & ~rs1
+        rd[] = tmp
+    }
+}
+
+Instruction(:csrrwi) {
+    encoding *format_i(0x73, 0x5)
+    code {
+        tmp = csr[imm_11_0]
+        csr[imm_11_0] = rs1
+        rd[] = tmp
+    }
+}
+
+Instruction(:csrrsi) {
+    encoding *format_i(0x73, 0x6)
+    code {
+        tmp = csr[imm_11_0]
+        csr[imm_11_0] = tmp | rs1
+        rd[] = tmp
+    }
+}
+
+Instruction(:csrrci) {
+    encoding *format_i(0x73, 0x7)
+    code {
+        tmp = csr[imm_11_0]
+        csr[imm_11_0] = tmp & ~rs1
+        rd[] = tmp
+    }
+}
+
+Instruction(:ecall) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x73),
+        field(:funct3, 14, 12, 0x0),
+        field(:imm_11_0, 31, 20, 0x000)
+    ]
+    code {
+        raise_trap(:environment_call)
+    }
+}
+
+Instruction(:ebreak) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x73),
+        field(:funct3, 14, 12, 0x0),
+        field(:imm_11_0, 31, 20, 0x001)
+    ]
+    code {
+        raise_trap(:breakpoint)
+    }
+}
+
+Instruction(:uret) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x73),
+        field(:funct3, 14, 12, 0x0),
+        field(:imm_11_0, 31, 20, 0x002)
+    ]
+    code {
+        raise_trap(:illegal_instruction)
+    }
+}
+
+Instruction(:sret) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x73),
+        field(:funct3, 14, 12, 0x0),
+        field(:imm_11_0, 31, 20, 0x102)
+    ]
+    code {
+        pc = csr[0x141]
+    }
+}
+
+Instruction(:mret) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x73),
+        field(:funct3, 14, 12, 0x0),
+        field(:imm_11_0, 31, 20, 0x302)
+    ]
+    code {
+        pc = csr[0x341]
+    }
+}
+
+Instruction(:wfi) {
+    encoding :I, [
+        field(:opcode, 6, 0, 0x73),
+        field(:funct3, 14, 12, 0x0),
+        field(:imm_11_0, 31, 20, 0x105)
+    ]
+    code {
+    }
+}
+
+Instruction(:sfence_vma) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x73),
+        field(:rd, 11, 7, 0x0),
+        field(:funct3, 14, 12, 0x0),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x09)
+    ]
+    code {
+    }
+}
+
+Instruction(:addiw) {
+    encoding *format_i(0x1B, 0x0)
+    code {
+        imm_32 = sign_extend(imm_11_0, 12)
+        rs1_32 = rs1 & 0xFFFFFFFF
+        result_32 = (rs1_32 + imm_32) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:slliw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x1B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x1),
+        field(:rs1, 19, 15, :reg),
+        field(:shamt, 24, 20, :imm),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code {
+        shamt_bits = shamt & 0x1F
+        rs1_32 = rs1 & 0xFFFFFFFF
+        result_32 = (rs1_32 << shamt_bits) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:srliw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x1B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x5),
+        field(:rs1, 19, 15, :reg),
+        field(:shamt, 24, 20, :imm),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code {
+        shamt_bits = shamt & 0x1F
+        rs1_32 = rs1 & 0xFFFFFFFF
+        result_32 = (rs1_32 >> shamt_bits) & 0xFFFFFFFF
+        rd[] = result_32
+    }
+}
+
+Instruction(:sraiw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x1B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x5),
+        field(:rs1, 19, 15, :reg),
+        field(:shamt, 24, 20, :imm),
+        field(:funct7, 31, 25, 0x20)
+    ]
+    code {
+        shamt_bits = shamt & 0x1F
+        rs1_signed = sign_extend(rs1 & 0xFFFFFFFF, 32)
+        result_32 = (rs1_signed >> shamt_bits) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:addw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x0),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code {
+        rs1_32 = rs1 & 0xFFFFFFFF
+        rs2_32 = rs2 & 0xFFFFFFFF
+        result_32 = (rs1_32 + rs2_32) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:subw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x0),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x20)
+    ]
+    code {
+        rs1_32 = rs1 & 0xFFFFFFFF
+        rs2_32 = rs2 & 0xFFFFFFFF
+        result_32 = (rs1_32 - rs2_32) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:sllw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x1),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code {
+        shamt_bits = rs2 & 0x1F
+        rs1_32 = rs1 & 0xFFFFFFFF
+        result_32 = (rs1_32 << shamt_bits) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:srlw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x5),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code {
+        shamt_bits = rs2 & 0x1F
+        rs1_32 = rs1 & 0xFFFFFFFF
+        result_32 = (rs1_32 >> shamt_bits) & 0xFFFFFFFF
+        rd[] = result_32
+    }
+}
+
+Instruction(:sraw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x5),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x20)
+    ]
+    code {
+        shamt_bits = rs2 & 0x1F
+        rs1_signed = sign_extend(rs1 & 0xFFFFFFFF, 32)
+        result_32 = (rs1_signed >> shamt_bits) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:sltw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x2),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code {
+        rs1_signed = sign_extend(rs1 & 0xFFFFFFFF, 32)
+        rs2_signed = sign_extend(rs2 & 0xFFFFFFFF, 32)
+        rd[] = (rs1_signed < rs2_signed) ? 1 : 0
+    }
+}
+
+Instruction(:sltuw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x3),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code {
+        rs1_32 = rs1 & 0xFFFFFFFF
+        rs2_32 = rs2 & 0xFFFFFFFF
+        rd[] = (rs1_32 < rs2_32) ? 1 : 0
+    }
+}
+
+Instruction(:xorw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x4),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code {
+        rs1_32 = rs1 & 0xFFFFFFFF
+        rs2_32 = rs2 & 0xFFFFFFFF
+        result_32 = (rs1_32 ^ rs2_32) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:orw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x6),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code { 
+        rs1_32 = rs1 & 0xFFFFFFFF
+        rs2_32 = rs2 & 0xFFFFFFFF
+        result_32 = (rs1_32 | rs2_32) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:andw) {
+    encoding :R, [
+        field(:opcode, 6, 0, 0x3B),
+        field(:rd, 11, 7, :reg),
+        field(:funct3, 14, 12, 0x7),
+        field(:rs1, 19, 15, :reg),
+        field(:rs2, 24, 20, :reg),
+        field(:funct7, 31, 25, 0x0)
+    ]
+    code { 
+        rs1_32 = rs1 & 0xFFFFFFFF
+        rs2_32 = rs2 & 0xFFFFFFFF
+        result_32 = (rs1_32 & rs2_32) & 0xFFFFFFFF
+        rd[] = sign_extend(result_32, 32)
+    }
+}
+
+Instruction(:ld) {
+    encoding *format_i(0x03, 0x3)
+    code { 
+        rd[] = memory[rs1 + imm_11_0][63].to_i(64)
+    }
+}
+
+Instruction(:lwu) {
+    encoding *format_i(0x03, 0x6)
+    code { 
+        word = memory[rs1 + imm_11_0][31].to_i(32, false)
+        rd[] = word
+    }
+}
+
+Instruction(:sd) {
+    encoding *format_s(0x23, 0x3)
+    code { 
+        memory[rs1 + imm_11_5 + imm_4_0] = rs2[63]
+    }
+}
+
