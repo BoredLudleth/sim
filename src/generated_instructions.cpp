@@ -184,7 +184,7 @@ void exec_addi(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
   // Get register values
   register_t rs1_val = hart->gpr_[rs1];
@@ -201,7 +201,7 @@ void exec_slti(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -219,7 +219,7 @@ void exec_sltiu(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -237,7 +237,7 @@ void exec_xori(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -255,7 +255,7 @@ void exec_ori(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -273,7 +273,7 @@ void exec_andi(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -336,7 +336,7 @@ void exec_lb(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -354,7 +354,7 @@ void exec_lh(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -373,7 +373,7 @@ void exec_lw(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
   // Get register values
   register_t rs1_val = hart->gpr_[rs1];
@@ -390,7 +390,7 @@ void exec_lbu(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -409,7 +409,7 @@ void exec_lhu(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -668,7 +668,7 @@ void exec_fence(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -683,7 +683,7 @@ void exec_fence_i(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -698,7 +698,7 @@ void exec_csrrw(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -717,7 +717,7 @@ void exec_csrrs(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -736,7 +736,7 @@ void exec_csrrc(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -755,7 +755,7 @@ void exec_csrrwi(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -774,7 +774,7 @@ void exec_csrrsi(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -793,7 +793,7 @@ void exec_csrrci(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -812,7 +812,7 @@ void exec_ecall(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -829,7 +829,7 @@ void exec_ebreak(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -846,7 +846,7 @@ void exec_uret(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -863,7 +863,7 @@ void exec_sret(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -878,7 +878,7 @@ void exec_mret(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -893,7 +893,7 @@ void exec_wfi(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -922,7 +922,7 @@ void exec_addiw(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -1186,7 +1186,7 @@ void exec_ld(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values
@@ -1204,7 +1204,7 @@ void exec_lwu(Hart *hart, uint32_t instr) {
   uint8_t rs1 = (instr >> 15) & 0x1F;
   int32_t imm = static_cast<int32_t>(instr & 0xFFF00000) >> 20;
   if (imm & 0x800) {
-    imm |= 0xFFFFF000; // Расширение знака для 32-битного значения
+    imm |= 0xFFFFF000;
   }
 
   // Get register values

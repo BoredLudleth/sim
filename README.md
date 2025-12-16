@@ -10,7 +10,7 @@
 ## Компиляция
 ```
 cd sim/
-cmake -S ./ -B build/
+make -B build -S . -DENABLE_CACHE=OFF -DENABLE_MMU=ON
 cmake --build build
 ```
 При сборке проекта можно использовать флаги 
@@ -18,14 +18,9 @@ cmake --build build
 Для запуска проекта требуется:
 
 ```
-./build/sim
+./build/riscv-simulator ./examples/queens8.elf
 ```
 
-Для запуска тестов требуется:
-```
-cd build/
-ctest
-```
 
 По сути, работа симулятора сводится к повторению следующих действий:
 
@@ -35,3 +30,9 @@ ctest
 3. Исполнить инструкцию
 4. Записать результат
 5. Продвинуть pc к следующей инструкции (шаг 1)
+
+## How to create elf-file?
+```
+riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -ffreestanding -Ttext=0x80000000 -Wl,-Map=output.map -o examples/fibonacci.elf examples/fibonacci.c
+```
+
